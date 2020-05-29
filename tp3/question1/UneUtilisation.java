@@ -1,5 +1,7 @@
 package question1;
 
+import question1.PolygoneRegulier;
+
 public class UneUtilisation {
 
 	public static void main(String[] args) throws Exception {
