@@ -14,51 +14,95 @@ public class Pile implements PileI {
     private Object[] zone;
     private int ptr;
 
-    public Pile(int taille) {
+    public Pile(int taille) {   
         // traiter le cas <=0
         // a completer
+         if (taille <= 0){
+            taille = CAPACITE_PAR_DEFAUT;
+        }
+        zone = new Object[taille];
+        ptr = 0;
     }
 
     public Pile() {
-        this(0);
+        this(PileI.CAPACITE_PAR_DEFAUT);
     }
 
     public void empiler(Object o) throws PilePleineException {
         // a completer
+        if (estPleine())
+            throw new PilePleineException();
+        zone[ptr] =o;
+        ptr++;
     }
 
     public Object depiler() throws PileVideException {
         // a completer
-        return null;
+        if (estVide())
+            throw new PileVideException();
+        ptr--;
+        return zone[ptr];
     }
 
     public Object sommet() throws PileVideException {
         // a completer
-        return null;
+         if (estVide())
+            throw new PileVideException();
+
+        return zone[ptr-1];
     }
 
     public int capacite() {
         // a completer
-        return -1;
+       return zone.length;
     }
 
     public int taille() {
         // a completer
-        return -1;
+        if(estVide()){
+            ptr = 0;
+        }
+        return ptr;
     }
 
     public boolean estVide() {
         // a completer
-        return false;
+        return ptr == 0;
     }
 
     public boolean estPleine() {
         // a completer
-        return false;
+        return ptr == zone.length;
     }
 
     public boolean equals(Object o) {
         // a completer
+        if(this == o){
+            return true;
+        }    
+        if(!(o instanceof Pile)){
+            return false;
+        }
+        Pile p1 = (Pile)o;
+
+        if (p1.taille() == this.taille() && p1.capacite() == this.capacite()){
+            boolean result = false;
+            for(int i=zone.length - 1; i >=0; i--){
+                Object temp = zone[i];
+                boolean equal = false;
+                for(int j = zone.length-1; j>=0; j--){
+                    if(temp == p1.zone[i]){
+                        equal = true;
+                    }       
+                }
+                if(equal){
+                    result = true;
+                }else{
+                    return false;
+                }
+            }
+            return true;
+        }                
         return false;
     }
 
@@ -69,6 +113,13 @@ public class Pile implements PileI {
 
     public String toString() {
         // a completer
-        return null;
+       StringBuffer sb = new StringBuffer("[");
+        for (int i = ptr - 1; i >= 0; i--) {
+            sb.append(zone[i].toString());
+            if (i > 0)
+                sb.append(", ");
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
